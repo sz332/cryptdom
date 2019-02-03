@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<acme:root xmlns:acme="http://wwww.acme.com/schema/">
+    <acme:header>
+        <acme:name>First document</acme:name>
+    </acme:header>
+    <acme:body>
+    </acme:body>
+
+</acme:root>
