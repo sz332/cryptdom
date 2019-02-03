@@ -13,7 +13,7 @@ import org.junit.Test;
 public class InMemoryKeyStoreTest {
     
     @Test
-    public void testCreate() throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableEntryException{
+    public void testCertificateIsPresentInStore() throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableEntryException{
 
         InMemoryKeyStore store = new InMemoryKeyStore("myAlias", "12345");
         
