@@ -3,6 +3,8 @@ package hu.acme.cryptodom.keystore;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.KeyStore;
+import java.security.KeyStore.PasswordProtection;
+import java.security.KeyStore.PrivateKeyEntry;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableEntryException;
@@ -33,8 +35,8 @@ public class KeyRepository {
 
     public XmlSignInformation asInformation(XMLSignatureFactory fac) throws KeyStoreException,
             NoSuchAlgorithmException, CertificateException, FileNotFoundException, IOException, UnrecoverableEntryException {
-        KeyStore.PrivateKeyEntry keyEntry = (KeyStore.PrivateKeyEntry) ks.getEntry(keyName,
-                new KeyStore.PasswordProtection(keyStorePassword.toCharArray()));
+        
+        PrivateKeyEntry keyEntry = (PrivateKeyEntry) ks.getEntry(keyName, new PasswordProtection(keyStorePassword.toCharArray()));
 
         X509Certificate cert = (X509Certificate) keyEntry.getCertificate();
 
