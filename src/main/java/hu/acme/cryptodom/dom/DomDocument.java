@@ -1,5 +1,7 @@
 package hu.acme.cryptodom.dom;
 
+import java.io.InputStream;
+
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -11,18 +13,26 @@ import org.w3c.dom.Node;
 
 public class DomDocument {
 
-    private final Document document;
+    private final DocumentTemplate template;
+
+    public DomDocument(DocumentTemplate template) {
+        this.template = template;
+    }
+
+    public DomDocument(InputStream stream) {
+        this(new DocumentTemplate(stream));
+    }
 
     public DomDocument(Document document) {
-        this.document = document;
+        this(new DocumentTemplate(document));
     }
 
     public Node asNode(String expression) throws NodeQueryException {
 
         try {
             XPathExpression exp = createExpression(expression);
-            return (Node) exp.evaluate(document, XPathConstants.NODE);
-        } catch (XPathExpressionException e) {
+            return (Node) exp.evaluate(template.asDocument(), XPathConstants.NODE);
+        } catch (XPathExpressionException | DocumentParseException e) {
             throw new NodeQueryException(e);
         }
     }
@@ -31,15 +41,15 @@ public class DomDocument {
 
         try {
             XPathExpression exp = createExpression(expression);
-            return (String) exp.evaluate(document, XPathConstants.STRING);
-        } catch (XPathExpressionException e) {
+            return (String) exp.evaluate(template.asDocument(), XPathConstants.STRING);
+        } catch (XPathExpressionException | DocumentParseException e) {
             throw new NodeQueryException(e);
         }
     }
 
-    private XPathExpression createExpression(String expression) throws XPathExpressionException {
+    private XPathExpression createExpression(String expression) throws XPathExpressionException, DocumentParseException {
         XPath xPath = XPathFactory.newInstance().newXPath();
-        xPath.setNamespaceContext(new NamespaceResolver(document));
+        xPath.setNamespaceContext(new NamespaceResolver(template.asDocument()));
         XPathExpression exp = xPath.compile(expression);
         return exp;
     }

@@ -1,23 +1,21 @@
 package hu.acme.cryptodom;
 
-import org.w3c.dom.Document;
-
+import hu.acme.cryptodom.dom.DocumentTemplate;
 import hu.acme.cryptodom.dom.DomDocument;
 import hu.acme.cryptodom.dom.NodeQueryException;
 
 public class AcmeDocumentParser {
 
-    private final Document document;
+    private final DocumentTemplate template;
 
-    public AcmeDocumentParser(Document document) {
-        this.document = document;
+    public AcmeDocumentParser(DocumentTemplate template) {
+        this.template = template;
     }
 
     public AcmeDocument parse() throws DocumentDecodeException {
 
         try {
-            DomDocument dom = new DomDocument(document);
-            
+            DomDocument dom = new DomDocument(template);
             String name = dom.asString("/acme:root/acme:header/acme:name/text()");
 
             return new AcmeDocument(name, null);
