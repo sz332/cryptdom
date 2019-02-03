@@ -16,12 +16,11 @@ import sun.security.x509.X500Name;
 
 public class InMemoryKeyStore {
 
-    public static final String KEY_TYPE_RSA = "RSA";
-    public static final String SIG_ALG_SHA_RSA = "SHA1WithRSA";
-    public static final int KEY_SIZE = 1024;
-    public static final long CERT_VALIDITY = 365 * 24 * 3600L;
-    public static final String ALIAS_PRIVATE = "prite";
-    public static final String ALIAS_CERT = "cert";
+    private static final String KEY_TYPE_RSA = "RSA";
+    private static final String SIG_ALG_SHA_RSA = "SHA1WithRSA";
+    private static final int KEY_SIZE = 1024;
+    private static final long CERT_VALIDITY = 365 * 24 * 3600L;
+    private static final String ALIAS_CERT = "cert";
 
     private final String password;
     private final String keyName;
@@ -34,14 +33,16 @@ public class InMemoryKeyStore {
     public KeyStore asKeyStore() {
 
         try {
-            CertAndKeyGen keyGen = new CertAndKeyGen(KEY_TYPE_RSA, SIG_ALG_SHA_RSA);
-            keyGen.generate(KEY_SIZE);
-
             KeyStore ks = emptyStore();
+            
             if (ks == null) {
                 return null;
             }
             
+            // FIXME replace this internal api with a bouncycastle implementation
+
+            CertAndKeyGen keyGen = new CertAndKeyGen(KEY_TYPE_RSA, SIG_ALG_SHA_RSA);
+            keyGen.generate(KEY_SIZE);
             X509Certificate certificate = keyGen.getSelfCertificate(new X500Name("cn=acme"), CERT_VALIDITY);
             ks.setCertificateEntry(ALIAS_CERT, certificate);
             ks.setKeyEntry(keyName, keyGen.getPrivateKey(), password.toCharArray(), new Certificate[] { certificate });
