@@ -7,5 +7,9 @@ public class DocumentParseException extends Exception{
     public DocumentParseException(Exception e) {
         super(e);
     }
+    
+    public DocumentParseException(String s) {
+        super(s);
+    }
 
 }

@@ -10,6 +10,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class DomDocument {
 
@@ -28,13 +29,25 @@ public class DomDocument {
     }
 
     public Node asNode(String expression) throws NodeQueryException {
-
         try {
             XPathExpression exp = createExpression(expression);
             return (Node) exp.evaluate(template.asDocument(), XPathConstants.NODE);
         } catch (XPathExpressionException | DocumentParseException e) {
             throw new NodeQueryException(e);
         }
+    }
+    
+    public Node asNode(String namespaceURI, String localName) throws NodeQueryException{
+        try {
+            NodeList nodes = template.asDocument().getElementsByTagNameNS(namespaceURI, localName);
+            if (nodes.getLength() == 0) {
+                throw new DocumentParseException("Tag not found");
+            }
+            
+            return nodes.item(0);
+        } catch (DocumentParseException e) {
+            throw new NodeQueryException(e);
+        }        
     }
 
     public String asString(String expression) throws NodeQueryException {
