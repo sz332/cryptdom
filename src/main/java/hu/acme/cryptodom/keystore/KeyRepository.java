@@ -33,7 +33,7 @@ public class KeyRepository {
         this.keyStorePassword = keyStorePassword;
     }
 
-    public XmlSignInformation asInformation(XMLSignatureFactory fac) throws KeyStoreException,
+    public XmlSignInformation information(XMLSignatureFactory fac) throws KeyStoreException,
             NoSuchAlgorithmException, CertificateException, FileNotFoundException, IOException, UnrecoverableEntryException {
         
         PrivateKeyEntry keyEntry = (PrivateKeyEntry) ks.getEntry(alias, new PasswordProtection(keyStorePassword.toCharArray()));

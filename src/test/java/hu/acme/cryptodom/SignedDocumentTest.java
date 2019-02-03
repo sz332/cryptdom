@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import hu.acme.cryptodom.dom.DocumentTemplate;
-import hu.acme.cryptodom.dom.SignedDocument;
+import hu.acme.cryptodom.dom.UnsignedDocument;
 import hu.acme.cryptodom.keystore.KeyRepository;
 
 // https://www.oracle.com/technetwork/articles/javase/dig-signature-api-140772.html
@@ -22,11 +22,13 @@ public class SignedDocumentTest {
     @Test
     public void testSign() {
         InMemoryKeyStore keyStore = new InMemoryKeyStore(ALIAS, PASSWORD);
-        InputStream stream = SignedDocumentTest.class.getResourceAsStream("test.xml");
         KeyRepository repo = new KeyRepository(keyStore.asKeyStore(), ALIAS, PASSWORD);
 
-        SignedDocument signedDocument = new SignedDocument(new DocumentTemplate(stream), repo);
-        String result = signedDocument.asSigned();
+        InputStream stream = SignedDocumentTest.class.getResourceAsStream("test.xml");
+        
+        UnsignedDocument signedDocument = new UnsignedDocument(new DocumentTemplate(stream));
+        
+        String result = signedDocument.asSigned(repo);
 
         Assert.assertNotNull(result);
     }

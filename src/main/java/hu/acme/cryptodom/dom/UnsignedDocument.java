@@ -31,24 +31,22 @@ import javax.xml.transform.stream.StreamResult;
 
 import hu.acme.cryptodom.keystore.KeyRepository;
 
-public class SignedDocument {
+public class UnsignedDocument {
 
     private final DocumentTemplate template;
-    private final KeyRepository signKeyStore;
 
-    public SignedDocument(DocumentTemplate template, KeyRepository signKeyStore) {
+    public UnsignedDocument(DocumentTemplate template) {
         this.template = template;
-        this.signKeyStore = signKeyStore;
     }
 
-    public String asSigned() {
+    public String asSigned(KeyRepository keyRepository) {
         XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
 
         try {
             // Create a DOMSignContext and specify the RSA PrivateKey and
             // location of the resulting XMLSignature's parent element.
 
-            XmlSignInformation signInfo = signKeyStore.asInformation(fac);
+            XmlSignInformation signInfo = keyRepository.information(fac);
 
             Reference ref = fac.newReference("", fac.newDigestMethod(DigestMethod.SHA1, null),
                     Collections.singletonList(fac.newTransform(Transform.ENVELOPED, (TransformParameterSpec) null)), null, null);
