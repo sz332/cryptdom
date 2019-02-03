@@ -14,7 +14,7 @@ import hu.acme.cryptodom.keystore.KeyRepository;
 // https://docs.oracle.com/javase/8/docs/api/javax/xml/crypto/dom/package-frame.html
 // http://www.bouncycastle.org/wiki/display/JA1/X.509+Public+Key+Certificate+and+Certification+Request+Generation
 // https://www.ibm.com/support/knowledgecenter/en/SSYKE2_7.0.0/com.ibm.java.security.component.70.doc/security-component/keytoolDocs/x500dnames.html
-public class SignedDocumentTest {
+public class UnsignedDocumentTest {
 
     private static final String ALIAS = "alias";
     private static final String PASSWORD = "changeme";
@@ -24,7 +24,7 @@ public class SignedDocumentTest {
         InMemoryKeyStore keyStore = new InMemoryKeyStore(ALIAS, PASSWORD);
         KeyRepository repo = new KeyRepository(keyStore.asKeyStore(), ALIAS, PASSWORD);
 
-        InputStream stream = SignedDocumentTest.class.getResourceAsStream("test.xml");
+        InputStream stream = UnsignedDocumentTest.class.getResourceAsStream("test.xml");
         
         UnsignedDocument signedDocument = new UnsignedDocument(new DocumentTemplate(stream));
         

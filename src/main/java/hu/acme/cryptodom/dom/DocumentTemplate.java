@@ -1,7 +1,9 @@
 package hu.acme.cryptodom.dom;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,6 +23,10 @@ public class DocumentTemplate {
 
     public DocumentTemplate(InputStream stream) {
         this.stream = stream;
+    }
+    
+    public DocumentTemplate(String s) {
+        this.stream = new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8));
     }
 
     public Document asDocument() throws DocumentParseException {
