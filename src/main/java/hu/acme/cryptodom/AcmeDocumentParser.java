@@ -7,8 +7,6 @@ import hu.acme.cryptodom.dom.NodeQueryException;
 
 public class AcmeDocumentParser {
 
-    //private static final String XMLNS_ACME = "http://wwww.acme.com/schema/";
-
     private final Document document;
 
     public AcmeDocumentParser(Document document) {
