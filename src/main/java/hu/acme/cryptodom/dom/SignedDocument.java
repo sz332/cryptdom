@@ -29,15 +29,15 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Document;
+import hu.acme.cryptodom.keystore.KeyRepository;
 
 public class SignedDocument {
 
-    private final Document document;
-    private final SignKeyStore signKeyStore;
+    private final DocumentTemplate template;
+    private final KeyRepository signKeyStore;
 
-    public SignedDocument(Document document, SignKeyStore signKeyStore) {
-        this.document = document;
+    public SignedDocument(DocumentTemplate template, KeyRepository signKeyStore) {
+        this.template = template;
         this.signKeyStore = signKeyStore;
     }
 
@@ -53,7 +53,7 @@ public class SignedDocument {
             Reference ref = fac.newReference("", fac.newDigestMethod(DigestMethod.SHA1, null),
                     Collections.singletonList(fac.newTransform(Transform.ENVELOPED, (TransformParameterSpec) null)), null, null);
             
-            DOMSignContext dsc = new DOMSignContext(signInfo.keyEntry().getPrivateKey(), document.getDocumentElement());
+            DOMSignContext dsc = new DOMSignContext(signInfo.keyEntry().getPrivateKey(), template.asDocument().getDocumentElement());
 
             // Create the XMLSignature, but don't sign it yet.
             SignedInfo si = fac.newSignedInfo(
@@ -69,12 +69,12 @@ public class SignedDocument {
 
             TransformerFactory tf = TransformerFactory.newInstance();
             Transformer trans = tf.newTransformer();
-            trans.transform(new DOMSource(document), new StreamResult(bos));
+            trans.transform(new DOMSource(template.asDocument()), new StreamResult(bos));
 
             return new String(bos.toByteArray(), StandardCharsets.UTF_8);
 
         } catch (NoSuchAlgorithmException | InvalidAlgorithmParameterException | KeyStoreException | CertificateException | IOException
-                | UnrecoverableEntryException | MarshalException | XMLSignatureException | TransformerException e) {
+                | UnrecoverableEntryException | MarshalException | XMLSignatureException | TransformerException | DocumentParseException e) {
             e.printStackTrace();
             return null;
         }

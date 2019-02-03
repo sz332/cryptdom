@@ -29,7 +29,6 @@ public class DocumentTemplate {
         }
 
         try {
-
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setValidating(false);
             factory.setNamespaceAware(true);

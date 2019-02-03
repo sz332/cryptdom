@@ -1,4 +1,4 @@
-package hu.acme.cryptodom.dom;
+package hu.acme.cryptodom.keystore;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -17,13 +17,15 @@ import javax.xml.crypto.dsig.keyinfo.KeyInfo;
 import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
 import javax.xml.crypto.dsig.keyinfo.X509Data;
 
-public class SignKeyStore {
+import hu.acme.cryptodom.dom.XmlSignInformation;
+
+public class KeyRepository {
 
     private final KeyStore ks;
     private final String keyName;
     private final String keyStorePassword;
 
-    public SignKeyStore(KeyStore ks, String keyName, String keyStorePassword) {
+    public KeyRepository(KeyStore ks, String keyName, String keyStorePassword) {
         this.ks = ks;
         this.keyName = keyName;
         this.keyStorePassword = keyStorePassword;
