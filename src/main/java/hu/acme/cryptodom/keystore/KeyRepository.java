@@ -24,19 +24,19 @@ import hu.acme.cryptodom.dom.XmlSignInformation;
 public class KeyRepository {
 
     private final KeyStore ks;
-    private final String keyName;
+    private final String alias;
     private final String keyStorePassword;
 
-    public KeyRepository(KeyStore ks, String keyName, String keyStorePassword) {
+    public KeyRepository(KeyStore ks, String alias, String keyStorePassword) {
         this.ks = ks;
-        this.keyName = keyName;
+        this.alias = alias;
         this.keyStorePassword = keyStorePassword;
     }
 
     public XmlSignInformation asInformation(XMLSignatureFactory fac) throws KeyStoreException,
             NoSuchAlgorithmException, CertificateException, FileNotFoundException, IOException, UnrecoverableEntryException {
         
-        PrivateKeyEntry keyEntry = (PrivateKeyEntry) ks.getEntry(keyName, new PasswordProtection(keyStorePassword.toCharArray()));
+        PrivateKeyEntry keyEntry = (PrivateKeyEntry) ks.getEntry(alias, new PasswordProtection(keyStorePassword.toCharArray()));
 
         X509Certificate cert = (X509Certificate) keyEntry.getCertificate();
 

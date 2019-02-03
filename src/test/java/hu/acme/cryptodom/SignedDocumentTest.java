@@ -14,11 +14,14 @@ import hu.acme.cryptodom.keystore.KeyRepository;
 // https://docs.oracle.com/javase/8/docs/api/javax/xml/crypto/dom/package-frame.html
 public class SignedDocumentTest {
 
+    private static final String ALIAS = "alias";
+    private static final String PASSWORD = "changeme";
+    
     @Test
     public void testSign() {
-        InMemoryKeyStore keyStore = new InMemoryKeyStore("changeme", "testkey");
+        InMemoryKeyStore keyStore = new InMemoryKeyStore(ALIAS, PASSWORD);
         InputStream stream = SignedDocumentTest.class.getResourceAsStream("test.xml");
-        KeyRepository repo = new KeyRepository(keyStore.asKeyStore(), "testkey", "changeme");
+        KeyRepository repo = new KeyRepository(keyStore.asKeyStore(), ALIAS, PASSWORD);
 
         SignedDocument signedDocument = new SignedDocument(new DocumentTemplate(stream), repo);
         String result = signedDocument.asSigned();

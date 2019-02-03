@@ -25,10 +25,10 @@ import sun.security.x509.X509CertInfo;
 public class InMemoryKeyStore {
 
     private final String password;
-    private final String keyName;
+    private final String alias;
 
-    public InMemoryKeyStore(String keyName, String password) {
-        this.keyName = keyName;
+    public InMemoryKeyStore(String alias, String password) {
+        this.alias = alias;
         this.password = password;
     }
 
@@ -45,7 +45,7 @@ public class InMemoryKeyStore {
             KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
             keyStore.load(null, password.toCharArray());
             
-            keyStore.setKeyEntry(keyName, keyPair.getPrivate(), password.toCharArray(), chain);
+            keyStore.setKeyEntry(alias, keyPair.getPrivate(), password.toCharArray(), chain);
             
             return keyStore;
 
