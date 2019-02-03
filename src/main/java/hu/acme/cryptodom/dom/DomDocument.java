@@ -19,10 +19,8 @@ public class DomDocument {
 
     public Node asNode(String expression) throws NodeQueryException {
 
-        XPath xPath = createPath();
-
         try {
-            XPathExpression exp = xPath.compile(expression);
+            XPathExpression exp = createExpression(expression);
             return (Node) exp.evaluate(document, XPathConstants.NODE);
         } catch (XPathExpressionException e) {
             throw new NodeQueryException(e);
@@ -30,20 +28,20 @@ public class DomDocument {
     }
 
     public String asString(String expression) throws NodeQueryException {
-        XPath xPath = createPath();
 
         try {
-            XPathExpression exp = xPath.compile(expression);
+            XPathExpression exp = createExpression(expression);
             return (String) exp.evaluate(document, XPathConstants.STRING);
         } catch (XPathExpressionException e) {
             throw new NodeQueryException(e);
         }
     }
 
-    private XPath createPath() {
+    private XPathExpression createExpression(String expression) throws XPathExpressionException {
         XPath xPath = XPathFactory.newInstance().newXPath();
         xPath.setNamespaceContext(new NamespaceResolver(document));
-        return xPath;
+        XPathExpression exp = xPath.compile(expression);
+        return exp;
     }
 
 }
