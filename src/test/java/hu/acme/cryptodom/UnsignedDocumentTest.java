@@ -2,7 +2,6 @@ package hu.acme.cryptodom;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,9 +9,9 @@ import org.w3c.dom.Document;
 
 import hu.acme.cryptodom.dom.DocumentParseException;
 import hu.acme.cryptodom.dom.DocumentTemplate;
+import hu.acme.cryptodom.dom.KeyRepository;
 import hu.acme.cryptodom.dom.UnsignedDocument;
 import hu.acme.cryptodom.dom.ValidDocument;
-import hu.acme.cryptodom.keystore.KeyRepository;
 
 // https://www.oracle.com/technetwork/articles/javase/dig-signature-api-140772.html
 // https://www.w3.org/TR/xmldsig-core/
@@ -35,11 +34,7 @@ public class UnsignedDocumentTest {
         
         String result = signedDocument.asSigned(repo);
         Assert.assertNotNull(result);
-        
-        try (PrintWriter out = new PrintWriter("e:/filename.txt")) {
-            out.println(result);
-        }
-        
+ 
         ValidDocument validDocument = new ValidDocument(new DocumentTemplate(result));
 
         Document document = validDocument.asDocument();

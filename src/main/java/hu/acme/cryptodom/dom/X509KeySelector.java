@@ -16,21 +16,26 @@ import javax.xml.crypto.dsig.keyinfo.KeyInfo;
 import javax.xml.crypto.dsig.keyinfo.X509Data;
 
 public class X509KeySelector extends KeySelector {
-    
-    public KeySelectorResult select(KeyInfo keyInfo, KeySelector.Purpose purpose, AlgorithmMethod method, XMLCryptoContext context) throws KeySelectorException {
+
+    public KeySelectorResult select(KeyInfo keyInfo, KeySelector.Purpose purpose, AlgorithmMethod method,
+            XMLCryptoContext context) throws KeySelectorException {
         Iterator<?> ki = keyInfo.getContent().iterator();
-    
+
         while (ki.hasNext()) {
             XMLStructure info = (XMLStructure) ki.next();
             if (!(info instanceof X509Data))
                 continue;
             X509Data x509Data = (X509Data) info;
-        
+
             Iterator<?> xi = x509Data.getContent().iterator();
+
             while (xi.hasNext()) {
                 Object o = xi.next();
-                if (!(o instanceof X509Certificate))
+
+                if (!(o instanceof X509Certificate)) {
                     continue;
+                }
+
                 final PublicKey key = ((X509Certificate) o).getPublicKey();
                 // Make sure the algorithm is compatible
                 // with the method.
@@ -43,10 +48,11 @@ public class X509KeySelector extends KeySelector {
                 }
             }
         }
+
         throw new KeySelectorException("No key found!");
     }
 
-    boolean algEquals(String algURI, String algName) {
+    private boolean algEquals(String algURI, String algName) {
         if ((algName.equalsIgnoreCase("DSA") && algURI.equalsIgnoreCase(SignatureMethod.DSA_SHA1))
                 || (algName.equalsIgnoreCase("RSA") && algURI.equalsIgnoreCase(SignatureMethod.RSA_SHA1))) {
             return true;

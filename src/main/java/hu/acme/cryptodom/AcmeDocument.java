@@ -10,11 +10,11 @@ public class AcmeDocument {
         this.data = data;
     }
 
-    public String getName() {
+    public String name() {
         return name;
     }
 
-    public byte[] getData() {
+    public byte[] data() {
         return data;
     }
 

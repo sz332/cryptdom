@@ -29,8 +29,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import hu.acme.cryptodom.keystore.KeyRepository;
-
 public class UnsignedDocument {
 
     private final DocumentTemplate template;
